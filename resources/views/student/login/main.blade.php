@@ -12,12 +12,12 @@
                 <a href="" class="-intro-x flex items-center pt-5">
                     <img alt="BiGG systems" class="w-6" src="{{ asset('dist/images/logo.svg') }}">
                     <span class="text-white text-lg ml-3">
-                        <span class="font-medium">BiGG</span> systems
+                        <span class="font-medium">BiGG</span> system
                     </span>
                 </a>
                 <div class="my-auto">
                     <img alt="BiGG systems" class="-intro-x w-1/2 -mt-16" src="{{ asset('dist/images/illustration.svg') }}">
-                    <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">{ Сургалтын алба }</div>
+                    <div class="-intro-x text-white font-medium text-4xl leading-tight mt-10">{ Оюутан }</div>
                     <div class="-intro-x mt-5 text-lg text-white dark:text-gray-500">Жинхэнэ мэдлэгийн эх булаг нь баримтууд байдаг. Ф. Бауст</div>
                 </div>
             </div>
@@ -30,8 +30,8 @@
                     <div class="intro-x mt-2 text-gray-500 xl:hidden text-center">Жинхэнэ мэдлэгийн эх булаг нь баримтууд байдаг. Ф. Бауст</div>
                     <div class="intro-x mt-8">
                         <form id="login-form">
-                            <input type="text" name="email" id="input-email" class="intro-x login__input input input--lg border border-gray-300 block" placeholder="{{ __('site.email') }}" />
-                            <div id="error-email" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
+                            <input type="text" name="code" id="input-code" class="intro-x login__input input input--lg border border-gray-300 block" placeholder="Оюутны код" />
+                            <div id="error-code" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                             <input type="password" name="password" id="input-password" class="intro-x login__input input input--lg border border-gray-300 block mt-4" placeholder="{{ __('site.password') }}" />
                             <div id="error-password" class="login__input-error w-5/6 text-theme-6 mt-2"></div>
                         </form>
@@ -63,7 +63,7 @@
                 cash('#login-form').find('.login__input-error').html('')
 
                 // Post form
-                let email = cash('#input-email').val()
+                let code = cash('#input-code').val()
                 let password = cash('#input-password').val()
                 let rememberMe = cash('#input-remember-me').val()
                 
@@ -72,7 +72,7 @@
                 await helper.delay(1500)
 
                 axios.post(`login`, {
-                    email: email,
+                    code: code,
                     password: password,
                     remember_me: rememberMe
                 }).then(res => {
@@ -80,21 +80,21 @@
                 }).catch(err => {
                     console.log(err)
                     cash('#btn-login').html('{{ __('site.login') }}')
-                    if (err.response.data.message != 'Wrong email or password.') {
+                    if (err.response.data.message != 'Wrong code or password.') {
                         //  console.log(err.response.data.errors);
-                        if(err.response.data.errors.email[0] == 'The email field is required.'){
-                            cash(`#input-email`).addClass('border-theme-6')
-                            cash(`#error-email`).html('{{ __('site.required_email') }}')
+                        if(err.response.data.errors.code[0] == 'The code field is required.'){
+                            cash(`#input-code`).addClass('border-theme-6')
+                            cash(`#error-code`).html('{{ __('site.required_code') }}')
                         }
 
-                        if(err.response.data.errors.email[0] == 'The email must be a valid email address.'){
-                            cash(`#input-email`).addClass('border-theme-6')
-                            cash(`#error-email`).html('{{ __('site.required_email_valid') }}')
+                        if(err.response.data.errors.code[0] == 'The code must be a valid code address.'){
+                            cash(`#input-code`).addClass('border-theme-6')
+                            cash(`#error-code`).html('{{ __('site.required_code_valid') }}')
                         }
 
-                        if(err.response.data.errors.email[0] == 'The selected email is invalid.'){
-                            cash(`#input-email`).addClass('border-theme-6')
-                            cash(`#error-email`).html('{{ __('site.required_email_selected') }}')
+                        if(err.response.data.errors.code[0] == 'The selected code is invalid.'){
+                            cash(`#input-code`).addClass('border-theme-6')
+                            cash(`#error-code`).html('{{ __('site.required_code_selected') }}')
                         }
 
                         if(err.response.data.errors.password[0] == 'The password field is required.'){
@@ -103,8 +103,8 @@
                         }
 
 
-                        // for (const [key, val] of Object.entries(err.response.data.errors.email)) {
-                        //     if(err.response.data.errors.email[0] == 'The email field is required.'){
+                        // for (const [key, val] of Object.entries(err.response.data.errors.code)) {
+                        //     if(err.response.data.errors.code[0] == 'The code field is required.'){
                         //         cash(`#input-${key}`).addClass('border-theme-6')
                         //         cash(`#error-${key}`).html('Hello')
                         //     }else{
@@ -115,7 +115,7 @@
                         // }
                     } else {
                         cash(`#input-password`).addClass('border-theme-6')
-                        cash(`#error-password`).html('{{ __('site.wrong_email_password') }}')
+                        cash(`#error-password`).html('{{ __('site.wrong_code_password') }}')
                     }
                 })
             }

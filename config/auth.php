@@ -76,14 +76,9 @@ return [
             'model' => App\Models\User::class,
         ],
 
-        'biggs' => [
+        'students' => [
             'driver' => 'eloquent',
-            'model' => App\Models\BiGG::class,
-        ],
-
-        'managers' => [
-            'driver' => 'eloquent',
-            'model' => App\Models\Manager::class,
+            'model' => App\Models\Student::class,
         ],
     ],
 

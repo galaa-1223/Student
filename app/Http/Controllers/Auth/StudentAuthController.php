@@ -40,14 +40,14 @@ class StudentAuthController extends Controller
     {
         
         if (Auth::guard('student')->attempt([
-                'email' => $request->email, 
+                'code' => $request->code, 
                 'password' => $request->password
             ]))
         {
             $user = Auth::guard('student')->user();
             
         } else {
-            throw new \Exception('Wrong email or password.');
+            throw new \Exception('Wrong code or password.');
         }
     }
 

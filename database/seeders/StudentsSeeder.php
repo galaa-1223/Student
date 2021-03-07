@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Seeder;
 use App\Models\Students;
 
@@ -23,7 +24,7 @@ class StudentsSeeder extends Seeder
             'huis' => 'er',
             'code' => '100001',
             'a_id' => '1',
-            'password' => '12345678',
+            'password' => Hash::make('12345678'),
             'phone' => '88873342',
             'image' => null,
             'address' => null,
@@ -39,7 +40,7 @@ class StudentsSeeder extends Seeder
             'huis' => 'em',
             'code' => '100002',
             'a_id' => '1',
-            'password' => '12345678',
+            'password' => Hash::make('12345678'),
             'phone' => '98776677',
             'image' => null,
             'address' => null,
@@ -55,7 +56,7 @@ class StudentsSeeder extends Seeder
             'huis' => 'em',
             'code' => '100003',
             'a_id' => '1',
-            'password' => '12345678',
+            'password' => Hash::make('12345678'),
             'phone' => '99993289',
             'image' => null,
             'address' => null,

@@ -2,18 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\Auth\TeacherAuthController;
+use App\Http\Controllers\Auth\StudentAuthController;
 
-use App\Http\Controllers\Teacher\TeacherController;
-use App\Http\Controllers\Teacher\TeachersController as TeachersController;
-use App\Http\Controllers\Teacher\StudentsController as StudentsController;
-use App\Http\Controllers\Teacher\AngiController as AngiController;
-use App\Http\Controllers\Teacher\HicheelController as HicheelController;
-use App\Http\Controllers\Teacher\HuvaariController as HuvaariController;
-use App\Http\Controllers\Teacher\MergejilController as MergejilController;
-use App\Http\Controllers\Teacher\MergejilBagshController as MergejilBagshController;
-use App\Http\Controllers\Teacher\TenhimController as TenhimController;
-use App\Http\Controllers\Teacher\SettingsController as SettingsController;
+use App\Http\Controllers\Student\StudentController;
+
+use App\Http\Controllers\Student\StudentsController;
+use App\Http\Controllers\Student\AngiController;
+use App\Http\Controllers\Student\HicheelController;
+use App\Http\Controllers\Student\HuvaariController;
+use App\Http\Controllers\Student\MergejilController;
+use App\Http\Controllers\Student\MergejilBagshController;
+use App\Http\Controllers\Student\TenhimController;
+use App\Http\Controllers\Student\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes

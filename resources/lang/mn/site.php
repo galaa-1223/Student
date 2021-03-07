@@ -70,6 +70,8 @@ return [
     'required_password'  => 'Нууц үг талбар хоосон байна!',
     'required_email_valid'  => 'Имэйл хаяг биш байна!',
     'required_email_selected'  => 'Бүртгэлгүй имэйл хаяг байна!',
+    'required_code'   => 'Оюутны код талбар хоосон байна!',
+    'required_code_selected'  => 'Бүртгэлгүй оюутны код байна!',
     
     // S
     'save'             => 'Хадгалах',
@@ -91,6 +93,7 @@ return [
     // V
 
     // W
+    'wrong_code_password' => 'Оюутны код эсвэл нууц үг буруу байна.',
     'wrong_email_password' => 'Имэйл эсвэл нууц үг буруу байна.',
     
     // X

@@ -9,7 +9,7 @@
         </a>
     </div>
     <ul class="border-t border-theme-24 py-5 hidden">
-        @foreach (config('app.manager_side_menu') as $menu)
+        @foreach (config('app.student_side_menu') as $menu)
             @if ($menu == 'devider')
                 <li class="menu__devider my-6"></li>
             @else
