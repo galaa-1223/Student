@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Teachers;
 use App\Models\Tenhim;
 use App\Models\MergejilBagsh;
+use App\Models\Fond;
 
 class TeachersController extends Controller
 {
@@ -20,7 +21,12 @@ class TeachersController extends Controller
     {
         $pageTitle = 'Багш';
         $pageName = 'teachers';
-        $teachers = Teachers::orderBy('created_at', 'desc')->get();
+        $teachers = Fond::select('fond.*', 'teachers.ner', 'teachers.ovog', 'teacher_mergejil.ner as mergejil', 'tenhim.tovch as tenhim', 'hicheel.ner as hicheel')
+                            ->join('teachers', 'teachers.id', '=', 'fond.t_id')
+                            ->join('teacher_mergejil', 'teacher_mergejil.id', '=', 'teachers.mb_id')
+                            ->join('tenhim', 'tenhim.id', '=', 'teachers.t_id')
+                            ->join('hicheel', 'hicheel.id', '=', 'fond.h_id')
+                            ->where('fond.a_id', Auth::guard('student')->user()->a_id)->get();
 
         $activeMenu = activeMenu($pageName);
 

@@ -7,91 +7,261 @@
         </div>
     @endif
     <div class="intro-y flex flex-col sm:flex-row items-center mt-8">
-        <h2 class="text-lg font-medium mr-auto">Хичээлийн хуваарь</h2>
-        <div class="w-full sm:w-auto flex mt-4 sm:mt-0">
+        <h2 class="text-lg font-medium mr-auto">Багшийн хичээлийн хуваарь</h2>
+    </div>
+    <!-- BEGIN: Huvaari bagsh -->
+    <div class="intro-y box mt-5">
+        <div class="flex flex-col sm:flex-row items-center p-5 border-b border-gray-200">
+            <h2 class="font-medium text-base mr-auto">{{ $student->angi }} {{ $student->angi_course }}{{ $student->angi_buleg }} ангийн хичээлийн хуваарь</h2>
+            <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5">Ангийн багш: {{ Str::substr($student->bagsh_ovog, 0, 1) }}. {{ $student->bagsh }}</div>
+        </div>
+        <div class="p-5" id="hoverable-table">
+            <div class="preview">
+                <div class="overflow-x-auto">
+                    <table class="table border-yellow-500 huvaari-table">
+                        <thead>
+                            <tr>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-20">Цаг / Өдөр</th>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-1/6">Даваа</th>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-1/6">Мягмар</th>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-1/6">Лхагва</th>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-1/6">Пүрэв</th>
+                                <th class="border border-b-2 bg-theme-1 dark:border-dark-5 whitespace-nowrap text-white text-center w-1/6">Баасан</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            // dd($huvaariud);
+                                $date = explode(":", config('settings.huvaari_ehleh'));
+
+                                $tsag = $date[0];
+                                $minu = $date[1];
+
+                                $hicheelleh = config('settings.huvaari_urgeljleh');
+                                $zavsar = config('settings.huvaari_zavsarlaga');
+                                $ihzasvar = config('settings.huvaari_ih_zavsarlaga');
+                                $hicheelleh_tsag = config('settings.huvaari_hicheelleh');
+
+                                for($i = 1; $i <= $hicheelleh_tsag; $i++){
+
+                                    if($i > 3){
+                                        $ih_zasvar = $ihzasvar - $zavsar;
+                                    }else{
+                                        $ih_zasvar = 0;
+                                    }
+
+                                    $start = date("H:i", mktime($tsag, $minu + ($zavsar * ($i - 1)) + ($hicheelleh * ($i - 1)) + $ih_zasvar, 0, 0, 0, 2000));
+                                    $end = date("H:i", mktime($tsag, $minu + ($zavsar * ($i - 1)) + ($hicheelleh * $i) + $ih_zasvar, 0, 0, 0, 2000));
+                                ?>
+                            <tr>
+                                <td class="border border-b-1 bg-theme-2 text-center">
+                                    <?=$i;?> - р цаг
+                                    <div class="text-gray-600 text-xs whitespace-nowrap mt-0.5"><?=$start.' - '.$end;?></div>
+                                </td>
+                                <td class="border hover:bg-theme-31 border-b-2 text-center  table-1-{{$i}}" data-udur="1" data-number="{{$i}}" data-col="Даваа" data-row="{{$i}}-р цаг">
+                                    <?php
+                                    foreach($huvaariud as $huvaari):
+                                        if($huvaari->udur == 1 && $huvaari->tsag == $i):
+                                    ?>
+                                    <div class="box-border p-1 bg-theme-12 zoom-in huvaari_view rounded">
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'buten'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }?>
+
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }elseif($huvaari->huvaari == 'dooguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                                <div class="font-medium text-base">Хичээлгүй</div>
+                                            </div>
+                                        <? } ?>
+
+                                        <?php if($huvaari->huvaari == 'dooguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base">Хичээлгүй</div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        <div class="hidden hicheel_closed w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2">x</div>
+                                    </div>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                </td>
+                                <td class="border hover:bg-theme-31 border-b-2 text-center  table-2-{{$i}}" data-udur="2" data-number="{{$i}}" data-col="Мягмар" data-row="{{$i}}-р цаг">
+                                    <?php
+                                    foreach($huvaariud as $huvaari):
+                                        if($huvaari->udur == 2 && $huvaari->tsag == $i):
+                                    ?>
+                                    <div class="box-border p-1 bg-theme-12 zoom-in huvaari_view rounded">
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'buten'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }?>
+
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }elseif($huvaari->huvaari == 'dooguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                                <div class="font-medium text-base">Хичээлгүй</div>
+                                            </div>
+                                        <? } ?>
+
+                                        <?php if($huvaari->huvaari == 'dooguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base">Хичээлгүй</div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        <div class="hidden hicheel_closed w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2">x</div>
+                                    </div>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                </td>
+                                <td class="border hover:bg-theme-31 border-b-2 text-center  table-3-{{$i}}" data-udur="3" data-number="{{$i}}" data-col="Лхагва" data-row="{{$i}}-р цаг">
+                                    <?php
+                                    foreach($huvaariud as $huvaari):
+                                        if($huvaari->udur == 3 && $huvaari->tsag == $i):
+                                    ?>
+                                    <div class="box-border p-1 bg-theme-12 zoom-in huvaari_view rounded">
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'buten'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }?>
+
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }elseif($huvaari->huvaari == 'dooguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                                <div class="font-medium text-base">Хичээлгүй</div>
+                                            </div>
+                                        <? } ?>
+
+                                        <?php if($huvaari->huvaari == 'dooguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base">Хичээлгүй</div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        <div class="hidden hicheel_closed w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2">x</div>
+                                    </div>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                </td>
+                                <td class="border hover:bg-theme-31 border-b-2 text-center  table-4-{{$i}}" data-udur="4" data-number="{{$i}}" data-col="Пүрэв" data-row="{{$i}}-р цаг">
+                                    <?php
+                                    foreach($huvaariud as $huvaari):
+                                        if($huvaari->udur == 4 && $huvaari->tsag == $i):
+                                    ?>
+                                    <div class="box-border p-1 bg-theme-12 zoom-in huvaari_view rounded">
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'buten'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }?>
+
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }elseif($huvaari->huvaari == 'dooguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                                <div class="font-medium text-base">Хичээлгүй</div>
+                                            </div>
+                                        <? } ?>
+
+                                        <?php if($huvaari->huvaari == 'dooguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base">Хичээлгүй</div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        <div class="hidden hicheel_closed w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2">x</div>
+                                    </div>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                </td>
+                                <td class="border hover:bg-theme-31 border-b-2 text-center  table-5-{{$i}}" data-udur="5" data-number="{{$i}}" data-col="Баасан" data-row="{{$i}}-р цаг">
+                                    <?php
+                                    foreach($huvaariud as $huvaari):
+                                        if($huvaari->udur == 5 && $huvaari->tsag == $i):
+                                    ?>
+                                    <div class="box-border p-1 bg-theme-12 zoom-in huvaari_view rounded">
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'buten'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }?>
+
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        <?php }elseif($huvaari->huvaari == 'dooguur' && $huvaari->type == 'duuren'){?>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        
+                                        <?php if($huvaari->huvaari == 'deeguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                                <div class="font-medium text-base">Хичээлгүй</div>
+                                            </div>
+                                        <? } ?>
+
+                                        <?php if($huvaari->huvaari == 'dooguur' && $huvaari->type == 'hagas'){?>
+                                            <div class="font-medium text-base">Хичээлгүй</div>
+                                            <div class="box-border p-1 bg-theme-9 rounded">
+                                            <div class="font-medium text-base"><?=($huvaari->f_id == 0)? '' : $huvaari->hicheel;?><?=($huvaari->angi == 0)? '' : '/'.$huvaari->angi?></div>
+                                        </div>
+                                        <? } ?>
+                                        <div class="hidden hicheel_closed w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-theme-6 right-0 top-0 -mr-2 -mt-2">x</div>
+                                    </div>
+                                    <?php
+                                        endif;
+                                    endforeach;
+                                    ?>
+                                </td>
+                            </tr>
+                            <?php
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+            
+                </div>
+            </div>
             
         </div>
     </div>
-    <!-- BEGIN: HTML Table Data -->
-    <div class="intro-y box p-5 mt-5">
-        <div class="flex flex-col sm:flex-row sm:items-end xl:items-start">
-            <form class="xl:flex sm:mr-auto" id="tabulator-html-filter-form">
-                <div class="sm:flex items-center sm:mr-4">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Field</label>
-                    <select class="input w-full sm:w-32 xxl:w-full mt-2 sm:mt-0 sm:w-auto border" id="tabulator-html-filter-field">
-                        <option value="name">Багшийн нэр</option>
-                        <option value="category">Category</option>
-                        <option value="remaining_stock">Remaining Stock</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Type</label>
-                    <select class="input w-full mt-2 sm:mt-0 sm:w-auto border" id="tabulator-html-filter-type">
-                        <option value="like" selected>like</option>
-                        <option value="=">=</option>
-                        <option value="<"><</option>
-                        <option value="<="><=</option>
-                        <option value=">">></option>
-                        <option value=">=">>=</option>
-                        <option value="!=">!=</option>
-                    </select>
-                </div>
-                <div class="sm:flex items-center sm:mr-4 mt-2 xl:mt-0">
-                    <label class="w-12 flex-none xl:w-auto xl:flex-initial mr-2">Value</label>
-                    <input type="text" class="input w-full sm:w-40 xxl:w-full mt-2 sm:mt-0 border" id="tabulator-html-filter-value" placeholder="Search...">
-                </div>
-                <div class="mt-2 xl:mt-0">
-                    <button type="button" class="button w-full sm:w-16 bg-theme-1 text-white" id="tabulator-html-filter-go">Go</button>
-                    <button type="button" class="button w-full sm:w-16 mt-2 sm:mt-0 sm:ml-1 bg-gray-200 text-gray-600 dark:bg-dark-5 dark:text-gray-300" id="tabulator-html-filter-reset">Reset</button>
-                </div>
-            </form>
-            <div class="flex mt-5 sm:mt-0">
-                <button class="button w-1/2 sm:w-auto flex items-center border text-gray-700 mr-2 dark:bg-dark-5 dark:text-gray-300" id="tabulator-print">
-                    <i data-feather="printer" class="w-4 h-4 mr-2"></i> Print
-                </button>
-                <div class="dropdown w-1/2 sm:w-auto">
-                    <button class="dropdown-toggle button w-full sm:w-auto flex items-center border text-gray-700 dark:bg-dark-5 dark:text-gray-300">
-                        <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export <i data-feather="chevron-down" class="w-4 h-4 ml-auto sm:ml-2"></i>
-                    </button>
-                    <div class="dropdown-box w-40">
-                        <div class="dropdown-box__content box dark:bg-dark-1 p-2">
-                            <a href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md" id="tabulator-export-csv">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export CSV
-                            </a>
-                            <a href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md" id="tabulator-export-json">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export JSON
-                            </a>
-                            <a href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md" id="tabulator-export-xlsx">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export XLSX
-                            </a>
-                            <a href="javascript:;" class="flex items-center block p-2 transition duration-300 ease-in-out bg-white dark:bg-dark-1 hover:bg-gray-200 dark:hover:bg-dark-2 rounded-md" id="tabulator-export-html">
-                                <i data-feather="file-text" class="w-4 h-4 mr-2"></i> Export HTML
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="overflow-x-auto scrollbar-hidden">
-            <div class="mt-5 table-report table-report--tabulator" id="tabulator"></div>
-        </div>
-    </div>
-    <!-- END: HTML Table Data -->
-    <!-- BEGIN: Delete Confirmation Modal -->
-    <div class="modal" id="delete-confirmation-modal">
-        <div class="modal__content">
-            <div class="p-5 text-center">
-                <i data-feather="x-circle" class="w-16 h-16 text-theme-6 mx-auto mt-3"></i>
-                <div class="text-3xl mt-5">Are you sure?</div>
-                <div class="text-gray-600 mt-2">Do you really want to delete these records? This process cannot be undone.</div>
-            </div>
-            <div class="px-5 pb-8 text-center">
-                <button type="button" data-dismiss="modal" class="button w-24 border text-gray-700 mr-1">Cancel</button>
-                <button type="button" class="button w-24 bg-theme-6 text-white">Delete</button>
-            </div>
-        </div>
-    </div>
-    <!-- END: Delete Confirmation Modal -->
+    <!-- END: Huvaari bagsh -->
+
 @endsection
 
 @section('style')

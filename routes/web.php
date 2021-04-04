@@ -5,8 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\StudentAuthController;
 
 use App\Http\Controllers\Student\StudentController;
-
 use App\Http\Controllers\Student\StudentsController;
+
+use App\Http\Controllers\Student\TeachersController;
 use App\Http\Controllers\Student\AngiController;
 use App\Http\Controllers\Student\HicheelController;
 use App\Http\Controllers\Student\HuvaariController;
@@ -14,6 +15,7 @@ use App\Http\Controllers\Student\MergejilController;
 use App\Http\Controllers\Student\MergejilBagshController;
 use App\Http\Controllers\Student\TenhimController;
 use App\Http\Controllers\Student\SettingsController;
+use App\Http\Controllers\Student\EventController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -46,19 +48,11 @@ Route::group(['prefix' => 'student','middleware' => 'studentauth'], function () 
 	
 	// Teacher
 	Route::get('teachers',[TeachersController::class, 'index'])->name('student-teachers');
-	Route::get('teachers/add',[TeachersController::class, 'add'])->name('student-teachers-add');
-	Route::get('teachers/edit/{id}',[TeachersController::class, 'edit'])->name('teachers-edit');
-
-	Route::post('teachers/add',[TeachersController::class, 'store'])->name('student-teachers-save');
-	Route::post('teachers/edit/{id}',[TeachersController::class, 'update'])->name('student-teachers-edit');
-	Route::post('teachers/delete/',[TeachersController::class, 'delete'])->name('student-teachers-delete-ajax');
 
 	Route::delete('teachers/delete/{id}',[TeachersController::class, 'destroy'])->name('student-teachers-delete');
 
 	// Angi
-	Route::get('angi',[AngiController::class, 'index'])->name('student-angi');
-	Route::get('angi/add',[AngiController::class, 'add'])->name('student-angi-add');
-	Route::get('angi/edit/{id}',[AngiController::class, 'edit'])->name('angi-edit');
+	Route::get('angiud',[AngiController::class, 'index'])->name('student-angi');
 
 	Route::post('angi/add',[AngiController::class, 'store'])->name('student-angi-save');
 	Route::post('angi/edit/{id}',[AngiController::class, 'update'])->name('student-angi-edit');
@@ -67,35 +61,9 @@ Route::group(['prefix' => 'student','middleware' => 'studentauth'], function () 
 
 	// Mergejil
 	Route::get('mergejil',[MergejilController::class, 'index'])->name('student-mergejil');
-	Route::get('mergejil/add',[MergejilController::class, 'add'])->name('student-mergejil-add');
-	Route::get('mergejil/edit/{id}',[MergejilController::class, 'edit'])->name('mergejil-edit');
-
-	Route::post('mergejil/add',[MergejilController::class, 'store'])->name('student-mergejil-save');
-	Route::post('mergejil/edit/{id}',[MergejilController::class, 'update'])->name('student-mergejil-edit');
-	Route::post('mergejil/delete/',[MergejilController::class, 'delete'])->name('student-mergejil-delete-ajax');
-
-	Route::delete('mergejil/delete/{id}',[MergejilController::class, 'destroy'])->name('student-mergejil-delete');
-
-	// Mergejil Bagsh
-	Route::get('mergejil_bagsh',[MergejilBagshController::class, 'index'])->name('student-mergejil_bagsh');
-	Route::get('mergejil_bagsh/add',[MergejilBagshController::class, 'add'])->name('student-mergejil_bagsh-add');
-	Route::get('mergejil_bagsh/edit/{id}',[MergejilBagshController::class, 'edit'])->name('mergejil_bagsh-edit');
-
-	Route::post('mergejil_bagsh/add',[MergejilBagshController::class, 'store'])->name('student-mergejil_bagsh-save');
-	Route::post('mergejil_bagsh/edit/{id}',[MergejilBagshController::class, 'update'])->name('student-mergejil_bagsh-edit');
-
-	Route::delete('mergejil_bagsh/delete/{id}',[MergejilBagshController::class, 'destroy'])->name('student-mergejil_bagsh-delete');
-
+	
 	// Tenhim
 	Route::get('tenhim',[TenhimController::class, 'index'])->name('student-tenhim');
-	Route::get('tenhim/add',[TenhimController::class, 'add'])->name('student-tenhim-add');
-	Route::get('tenhim/edit/{id}',[TenhimController::class, 'edit'])->name('tenhim-edit');
-
-	Route::post('tenhim/add',[TenhimController::class, 'store'])->name('student-tenhim-save');
-	Route::post('tenhim/edit/{id}',[TenhimController::class, 'update'])->name('student-tenhim-edit');
-	Route::post('tenhim/delete/',[TenhimController::class, 'delete'])->name('student-tenhim-delete-ajax');
-
-	Route::delete('tenhim/delete/{id}',[TenhimController::class, 'destroy'])->name('student-tenhim-delete');
 
 	// Hicheel
 	Route::get('hicheel',[HicheelController::class, 'index'])->name('student-hicheel');
@@ -125,6 +93,13 @@ Route::group(['prefix' => 'student','middleware' => 'studentauth'], function () 
 	Route::get('settings',[SettingsController::class, 'index'])->name('student-settings');
 	Route::get('settings/password',[SettingsController::class, 'password'])->name('student-settings-password');
 	Route::get('settings/huvaari',[SettingsController::class, 'huvaari'])->name('student-settings-huvaari');
+
+	Route::post('settings/changePassword',[SettingsController::class, 'changePassword'])->name('student-settings-changepassword');
+	Route::post('settings/changePicture/{id}',[SettingsController::class, 'changePicture'])->name('student-settings-changepicture');
+
+	// Event
+	Route::get('events',[EventController::class, 'index'])->name('student-events');
+
 });
 
 

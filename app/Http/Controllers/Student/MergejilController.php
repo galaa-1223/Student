@@ -22,12 +22,12 @@ class MergejilController extends Controller
 
         $activeMenu = activeMenu($pageName);
 
-        return view('teacher/pages/'.$pageName.'/index', [
+        return view('student/pages/'.$pageName.'/index', [
             'first_page_name' => $activeMenu['first_page_name'],
             'page_title' => $pageTitle,
             'page_name' => $pageName,
             'mergejils' => $mergejil,
-            'user' => Auth::guard('teacher')->user()
+            'user' => Auth::guard('student')->user()
         ]);
     }
 
@@ -40,12 +40,12 @@ class MergejilController extends Controller
 
         $activeMenu = activeMenu($pageName);
 
-        return view('teacher/pages/'.$pageName.'/add', [
+        return view('student/pages/'.$pageName.'/add', [
             'first_page_name' => $activeMenu['first_page_name'],
             'page_title' => $pageTitle,
             'page_name' => $pageName,
             'bolovsrols' => $bolovsrol,
-            'user' => Auth::guard('teacher')->user()
+            'user' => Auth::guard('student')->user()
         ]);
     }
 
@@ -62,7 +62,7 @@ class MergejilController extends Controller
 
         switch ($request->input('action')) {
             case 'save':
-                return redirect()->route('teacher-mergejil')->with('success', 'Мэргэжил амжилттай нэмэгдлээ!');
+                return redirect()->route('student-mergejil')->with('success', 'Мэргэжил амжилттай нэмэгдлээ!');
                 break;
     
             case 'save_and_new':
@@ -80,16 +80,16 @@ class MergejilController extends Controller
         $pageTitle = 'Мэргэжил засварлах';
         $pageName = 'mergejil';
 
-        $teacher = mergejil::findOrFail($id);
+        $student = mergejil::findOrFail($id);
 
         $activeMenu = activeMenu($pageName);
 
-        return view('teacher/pages/'.$pageName.'/edit', [
+        return view('student/pages/'.$pageName.'/edit', [
             'first_page_name' => $activeMenu['first_page_name'],
             'page_title' => $pageTitle,
             'page_name' => $pageName,
-            'teacher' => $teacher,
-            'user' => Auth::guard('teacher')->user()
+            'student' => $student,
+            'user' => Auth::guard('student')->user()
         ]);
     }
 
@@ -107,7 +107,7 @@ class MergejilController extends Controller
 
         switch ($request->input('action')) {
             case 'save':
-                return redirect()->route('teacher-mergejil')->with('success', 'Мэргэжил амжилттай засварлагдлаа!'); 
+                return redirect()->route('student-mergejil')->with('success', 'Мэргэжил амжилттай засварлагдлаа!'); 
                 break;
     
             case 'save_and_new':
@@ -133,6 +133,6 @@ class MergejilController extends Controller
     {
         $member = mergejil::findOrFail($request->get("t_id"));
         $member->delete();
-        return redirect()->route('teacher-mergejil')->with('success', 'Мэргэжил амжилттай устгалаа!'); 
+        return redirect()->route('student-mergejil')->with('success', 'Мэргэжил амжилттай устгалаа!'); 
     }
 }

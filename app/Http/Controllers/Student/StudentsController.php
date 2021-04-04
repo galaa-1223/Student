@@ -19,7 +19,8 @@ class StudentsController extends Controller
     {
         $pageTitle = 'Оюутан';
         $pageName = 'students';
-        $students = Students::orderBy('created_at', 'desc')->get();
+        $students = Students::orderBy('ner', 'asc')
+                    ->where('a_id', Auth::guard('student')->user()->a_id)->get();
 
         $activeMenu = activeMenu($pageName);
 

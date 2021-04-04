@@ -1,4 +1,4 @@
-@extends('../bigg.layout.main')
+@extends('../student.layout.main')
 
 @section('head')
     <title>{{ 'Алдаа гарлаа! :: '.config('app.bigg_title') }}</title>

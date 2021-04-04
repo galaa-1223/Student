@@ -7,9 +7,15 @@ import Toastify from "toastify-js";
         cash("#preview-image").attr("src", '/dist/images/Blank-avatar.png');
         cash("#remove-image").hide();
         cash("#image").val(null);
+        cash("#save_image").hide();
+        cash("#cancel_image").hide();
     });
 
     cash("#image").on("change", function () {
+
+        cash("#save_image").show();
+        cash("#cancel_image").show();
+        
         var file = cash(this).get(0).files[0];
 
         if(file){
