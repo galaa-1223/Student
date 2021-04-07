@@ -1,7 +1,7 @@
 @layer components {
     .blog {
         .blog__preview {
-            height: 320px;
+            height: 180px;
             &:before {
                 content: "";
                 background: linear-gradient(to top, #000000d9, #00000045);

@@ -16,6 +16,8 @@ use App\Http\Controllers\Student\MergejilBagshController;
 use App\Http\Controllers\Student\TenhimController;
 use App\Http\Controllers\Student\SettingsController;
 use App\Http\Controllers\Student\EventController;
+use App\Http\Controllers\Student\EschoolController;
+use App\Http\Controllers\Student\AguulgaController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -88,6 +90,18 @@ Route::group(['prefix' => 'student','middleware' => 'studentauth'], function () 
 	Route::post('students/add',[StudentsController::class, 'store'])->name('student-students-save');
 	Route::post('students/edit/{id}',[StudentsController::class, 'update'])->name('student-students-edit');
 	Route::post('students/delete/',[StudentsController::class, 'delete'])->name('student-students-delete-ajax');
+
+	// Eschool
+	Route::get('eschool',[EschoolController::class, 'index'])->name('student-eschool');
+	Route::get('eschool/{slug}/sedevs',[EschoolController::class, 'sedevs'])->name('student-eschool-sedevs');
+	Route::get('eschool/{slug}/sedev/{id}',[EschoolController::class, 'sedev'])->name('student-eschool-sedev');
+	// Route::get('eschool/{slug}/sedev/add',[EschoolController::class, 'sedevAdd'])->name('student-eschool-sedev-add');
+
+	// Route::get('eschool/{slug}/sedev/{id}/aguulga/add',[AguulgaController::class, 'aguulgaAdd'])->name('student-eschool-aguulga-add');
+
+	// Route::post('eschool/{slug}/sedev/save',[EschoolController::class, 'sedevSave'])->name('student-eschool-sedev-save');
+	// Route::post('eschool/{slug}/sedev/{id}/aguulga/save',[AguulgaController::class, 'aguulgaSave'])->name('student-eschool-aguulga-save');
+	// Route::post('eschool/{slug}/sedev/{id}/aguulga/uploads',[AguulgaController::class, 'aguulgaUploads'])->name('student-eschool-aguulga-uploads');
 
 	// Settings
 	Route::get('settings',[SettingsController::class, 'index'])->name('student-settings');
